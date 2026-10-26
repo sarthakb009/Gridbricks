@@ -49,8 +49,8 @@ Open [http://localhost:5173](http://localhost:5173). The FastAPI service is at [
 ## Submission links
 
 - Demo video: `video/northstar-wind-desk-demo.mp4` (caption-led guide, 6.92 minutes total; part 1 is 3.10 minutes and part 2 is 3.81 minutes).
-- Deployed application: not published; deploy using the included `vercel.toml` configuration after signing in to Vercel.
-- Public GitHub repository: pending creation and publication.
+- Deployed application: [Northstar Wind Desk](https://northstar-wind-desk.vercel.app) (public Vercel deployment).
+- Public GitHub repository: [sarthakb009/Gridbricks](https://github.com/sarthakb009/Gridbricks).
 
 ## Data sources
 
@@ -62,7 +62,7 @@ Contains BMRS data © Elexon Limited.
 
 ## Deployment
 
-The repository includes a Vercel full-stack service configuration in `vercel.toml`, routing the Vite app and FastAPI service in one project. The official [Vercel Python runtime documentation](https://vercel.com/changelog/python-on-vercel-is-now-generally-available) describes this service layout. Deployment was not completed: the Vercel and Heroku CLIs are unauthenticated in this session, and the GitHub browser session is signed out. The backend Dockerfile also supports deployment on Heroku or another container host.
+The app is deployed at [northstar-wind-desk.vercel.app](https://northstar-wind-desk.vercel.app). The root `vercel.toml` defines the Vite frontend and FastAPI backend as Vercel services; `/api/*` routes to FastAPI before the frontend catch-all. GitHub `main` is connected for automatic deployments. The backend Dockerfile also supports deployment on Heroku or another container host. See [Vercel Python runtime documentation](https://vercel.com/changelog/python-on-vercel-is-now-generally-available) for the service layout.
 
 ## AI assistance
 
