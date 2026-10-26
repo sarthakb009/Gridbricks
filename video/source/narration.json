@@ -1,0 +1,80 @@
+[
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "A clearer wind decision.",
+    "narration": "Welcome to Northstar Wind Desk, a day-ahead wind intelligence pilot for a GB electricity buyer. It makes two things clear: which wind forecast was available when the buyer had to decide, and how that forecast compared with the wind delivered. The goal is a more informed residual procurement conversation, with the source and uncertainty visible.",
+    "seconds": 30.0
+  },
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "Start with the buyer\u2019s question.",
+    "narration": "A buyer needs to cover expected consumer demand. Wind changes with weather, and the day-ahead decision happens before delivery. Forecast uncertainty therefore matters. In this pilot we deliberately isolate national wind generation from Elexon, so the team can inspect forecast availability and error without implying that wind alone determines the portfolio position.",
+    "seconds": 28.64
+  },
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "Freeze what was knowable.",
+    "narration": "The delivery date and decision cutoff define the view. Northstar only considers forecast publications no later than that cutoff, then keeps the newest available forecast for each half-hour. This avoids judging a decision with a forecast revision that arrived after the buyer had acted. The illustration on screen is a visual guide; it is not a claim about measured January values.",
+    "seconds": 32.73
+  },
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "See the forecast beside outturn.",
+    "narration": "The main chart compares the selected day-ahead forecast with actual wind outturn at thirty-minute resolution. A second chart shows signed error, forecast minus actual. Positive bars are an over-forecast; negative bars are an under-forecast. The table makes each period traceable, including its forecast publication time, and the full day can be exported for analysis.",
+    "seconds": 29.55
+  },
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "Turn error into a planning signal.",
+    "narration": "Mean absolute error gives the typical miss in megawatts. Weighted absolute percentage error expresses total absolute miss relative to actual wind volume. Mean bias shows whether forecasts tended to run high or low. These measures describe historic performance for the chosen decision vintage. They help quantify uncertainty; they do not tell the buyer how much to procure without demand and position data.",
+    "seconds": 33.18
+  },
+  {
+    "part": "PART 1 \u00b7 CLIENT WALKTHROUGH",
+    "title": "An auditable pilot, ready to extend.",
+    "narration": "The pilot gives the desk a repeatable historical review: a frozen decision view, a half-hourly comparison, understandable error measures, and a downloadable audit trail. The next step is to agree the actual market decision cutoff. To turn this into a net buying view, connect client demand, contracted generation, current position, and commercial constraints. Those inputs were intentionally excluded here.",
+    "seconds": 31.82
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Implementation and handover.",
+    "narration": "This second part is a technical walkthrough for the lead reviewer. I\u2019ll follow the path from Elexon data into the dashboard, explain how the decision-time vintage is selected, show where the logic lives, and call out the boundary conditions and operational work required before a production rollout.",
+    "seconds": 26.36
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "A small, inspectable architecture.",
+    "narration": "The frontend is React with Vite. Recharts renders the time series and error bars; the UI owns date and cutoff selection, loading and error states, metrics presentation, and CSV export. FastAPI fetches the two Elexon datasets, applies the time and join rules, and returns one compact response. Docker Compose starts the web and API containers for local review.",
+    "seconds": 31.36
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Two datasets. One matching key.",
+    "narration": "The prototype uses only the requested national Elexon feeds. WINDFOR supplies target start time, publish time, and forecast generation. FUELHH is filtered to fuel type WIND and supplies target start time and generation. The service matches records on start time, which represents the same half-hourly settlement period. Missing actuals stay null and appear as gaps rather than being filled.",
+    "seconds": 31.82
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Make the decision vintage reproducible.",
+    "narration": "The backend interprets the selected cutoff in the requested timezone, Europe London by default, and converts it to UTC. It queries a bounded publication-time lookback. For each target period it discards anything published after the cutoff, then chooses the latest remaining publish time. Delivery periods are filtered to the selected date and actuals are joined by start time. The response includes the cutoff and publication timestamp for auditability.",
+    "seconds": 35.91
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Metrics are explicit and reproducible.",
+    "narration": "For periods with both forecast and actual, the service computes error as forecast minus actual. MAE is the mean absolute error. RMSE is the square root of mean squared error. WAPE is total absolute error divided by total actual generation, times one hundred. Bias is mean signed error. WAPE is omitted if total actual wind is zero, and all metrics are omitted when there are no matched periods.",
+    "seconds": 35.91
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Where to review the code.",
+    "narration": "The backend main module contains the health route, Elexon request helper, period filtering, forecast selection, matching, and metric calculations. The frontend source contains the React page and visual styling. Dockerfiles define each service, and the root Compose file connects them. README documents the data sources, semantics, local startup, client pitch, and deployment setup. AI assistance is disclosed there as requested.",
+    "seconds": 32.27
+  },
+  {
+    "part": "PART 2 \u00b7 TECHNICAL REVIEW",
+    "title": "Known limits and production path.",
+    "narration": "This prototype has not been validated against live January responses in this environment. The API query semantics, returned schema, publication coverage, pagination and rate limits must be checked before relying on the result. Production should add caching, retries, request throttling, monitoring, data completeness checks, authentication and stored snapshots. Most importantly, no demand or portfolio inputs are present, so this is forecast intelligence, not a purchase recommendation.",
+    "seconds": 35.0
+  }
+]
